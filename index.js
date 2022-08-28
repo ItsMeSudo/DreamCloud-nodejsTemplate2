@@ -215,4 +215,18 @@ distube
     )
     .on('searchDone', () => {})
 
+//ANTI CRASH
+if (!token) {
+    console.warn("[CRASH] Token nélkül a bot nem tud elindulni!".red + "\n")
+    return process.exit();
+};
 client.login(token)
+  .catch((err) => {
+    console.error("[CRASH] Nem sikerült kapcsolódni a Discord API-hoz." + "\n");
+    console.error("[CRASH] Discord hiba:" + err);
+    process.exit();
+});
+process.on('unhandledRejection', async (err, promise) => {
+    console.error(`[ANTI-CRASH] Váratlan hiba történt: ${err}`.red);
+    console.error(promise);
+});
